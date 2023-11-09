@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<menu>
+    <repas>
+        <numero>1</numero>
+        <nom>Polpettes au Chorizo</nom>
+        <description>Saucisse Gaspor avec sauce tomate. Comprend 3 unités.</description>
+        <categorie>Entrées</categorie>
+        <prix>7</prix>
+    </repas>
+    <repas>
+        <numero>2</numero>
+        <nom>Arancini</nom>
+        <description>Ragù au boeuf ou au épinard avec ricotta. Comprend 2 unités.</description>
+        <categorie>Entrées</categorie>
+        <prix>6</prix>
+    </repas>
+    <repas>
+        <numero>3</numero>
+        <nom>César classique</nom>
+        <description>Pancetta, viandes biologiques (poulet) de Charlevoix, parmesan</description>
+        <categorie>Salades</categorie>
+        <prix>12</prix>
+    </repas>
+    <repas>
+        <numero>4</numero>
+        <nom>Panzanella</nom>
+        <description>Tomates cerises, croutons, speck, stracciata di Burrata, radiocchio, topinambours, ricotta, amandes</description>
+        <categorie>Salades</categorie>
+        <prix>22</prix>
+    </repas>
+    <repas>
+        <numero>5</numero>
+        <nom>Pizza Marinara</nom>
+        <description>Sauce tomate, ail, origan, basilic biologique, huile d'olive, romano</description>
+        <categorie>Pizzas</categorie>
+        <prix>9</prix>
+    </repas>
+    <repas>
+        <numero>6</numero>
+        <nom>Courgette et ricotta</nom>
+        <description>Zeste de citron, fior di Latte, huile d'olive, grana padano, poivre noir, basilic</description>
+        <categorie>Pizzas</categorie>
+        <prix>13</prix>
+    </repas>
+    <repas>
+        <numero>7</numero>
+        <nom>Calzone salami et ricotta</nom>
+        <description>Viandes biologiques de Charlevoix, fior di Latte, sauce tomate, pecorino, romano, huile d'olive, basilic, poivre noir</description>
+        <categorie>Pizzas</categorie>
+        <prix>15</prix>
+    </repas>
+    <repas>
+        <numero>8</numero>
+        <nom>Prosciutto</nom>
+        <description>Huile d'olive, grana padano, origan, mozzarella di Bufala, tomates cerises, roquette</description>
+        <categorie>Pizzas</categorie>
+        <prix>17</prix>
+    </repas>
+    <repas>
+        <numero>9</numero>
+        <nom>Méditerranéenne</nom>
+        <description>Sauce tomate, mozzarella, champignons sautés, poivrons rôtis, prosciutto, parmesan</description>
+        <categorie>Pizzas</categorie>
+        <prix>16</prix>
+    </repas>
+    <repas>
+        <numero>10</numero>
+        <nom>Végétarienne</nom>
+        <description>Pesto de basilic, kale, mozzarella, oignon caramélisé, tomates rôties</description>
+        <categorie>Pizzas</categorie>
+        <prix>15</prix>
+    </repas>
+    <repas>
+        <numero>11</numero>
+        <nom>Légumes grillés</nom>
+        <description>Sauce tomate, aubergine, poivron, courgette, fior di Latte, basilic, huile d'olive, grana padano</description>
+        <categorie>Pizzas</categorie>
+        <prix>15</prix>
+    </repas>
+    <repas>
+        <numero>12</numero>
+        <nom>Panna cotta</nom>
+        <description>Fraise du Québec, pistache, fleur de sel, caramel à l'érable</description>
+        <categorie>Dessert</categorie>
+        <prix>8</prix>
+    </repas>
+</menu>

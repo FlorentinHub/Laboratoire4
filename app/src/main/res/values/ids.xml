@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="category_entrees" />
+    <item type="id" name="category_salades" />
+    <item type="id" name="category_pizzas" />
+    <item type="id" name="category_dessert" />
+</resources>
