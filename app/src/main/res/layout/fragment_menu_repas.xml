@@ -1,0 +1,13 @@
+<!-- fragment_menu_repas.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/lv_menuRepas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:listSelector="@color/red" />
+</LinearLayout>

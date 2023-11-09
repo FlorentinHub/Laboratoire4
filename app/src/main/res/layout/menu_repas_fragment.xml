@@ -1,0 +1,45 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp">
+
+        <TextView
+            android:id="@+id/tv_menuItemName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nom du repas"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_menuCategorieName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nom du repas"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_menuItemDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description du repas"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_menuItemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PRIX$"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</LinearLayout>
