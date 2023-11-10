@@ -19,6 +19,7 @@ public class fragment_menu_repas extends Fragment {
     View vue;
     ArrayList listRepas;
     ListView lv_menuRepas;
+    Repas repasChoisi;
     public fragment_menu_repas() {
         // Required empty public constructor
     }
@@ -30,7 +31,6 @@ public class fragment_menu_repas extends Fragment {
         lv_menuRepas=vue.findViewById(R.id.lv_menuRepas);
 
         listRepas = getArguments().getParcelableArrayList("listRepas");
-        Log.d("",""+listRepas.toString());
         //Ajout de la liste de Repas au fragment
         ArrayAdapter<Repas> adapter = new ArrayAdapter<Repas>(getContext(), android.R.layout.simple_list_item_1, listRepas);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
@@ -39,9 +39,9 @@ public class fragment_menu_repas extends Fragment {
         lv_menuRepas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Repas repasChoisi = (Repas) parent.getItemAtPosition(position);
-                Log.d("repasChoisi","repasChoisi: "+repasChoisi.toString());
-                //Envoie de la liste
+                repasChoisi = (Repas) parent.getItemAtPosition(position);
+                ((activity_commande) requireActivity()).setRepasSelectionne(repasChoisi);
+                //Envoi de la liste
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("repasChoisi", repasChoisi);
                 getParentFragmentManager().setFragmentResult("envoiRepas", bundle);
