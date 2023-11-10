@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,14 +37,20 @@ public class MainActivity extends AppCompatActivity {
                 // Récupérer le nom du client et le numéro de téléphone saisis
                 String nomClient = editNomClient.getText().toString();
                 String numTel = editNumTel.getText().toString();
-
-                // Créer une intention pour ouvrir l'activité de commande
-                Intent intent = new Intent(MainActivity.this, activity_commande.class);
-                intent.putExtra("nomClient", nomClient);
-                intent.putExtra("numTel", numTel);
-
-                // Démarrer l'activité de commande
-                startActivity(intent);
+                    if(numTel.length()==12){
+                        if(!nomClient.isEmpty()){
+                        // Créer une intention pour ouvrir l'activité de commande
+                        Intent intent = new Intent(MainActivity.this, activity_commande.class);
+                        intent.putExtra("nomClient", nomClient);
+                        intent.putExtra("numTel", numTel);
+                        // Démarrer l'activité de commande
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(MainActivity.this, "Veuillez saisir un nom complet", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(MainActivity.this, "Veuillez saisir un numero de telephone complet", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -60,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 if (compteur % 3 == 0 && compteur < 9) {
                     formattedNumber.append('-');
                 }
-                if (compteur > 8) {
+                if (compteur > 9) {
                     break;
                 }
             }

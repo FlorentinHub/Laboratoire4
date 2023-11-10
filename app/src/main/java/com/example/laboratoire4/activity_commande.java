@@ -1,14 +1,24 @@
 package com.example.laboratoire4;
 
+import android.Manifest;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.XmlResourceParser;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -16,6 +26,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
+import android.telephony.SmsManager;
+import android.widget.Toast;
 
 public class activity_commande extends AppCompatActivity {
 
@@ -23,24 +36,28 @@ public class activity_commande extends AppCompatActivity {
     private TextView textNumTelClient;
     private Button btnCommander;
     private ArrayList<Repas> repasList = new ArrayList<>();
+    private Repas repasSelectionne;
+    private Commande commande;
+    private NotificationManager mng_notif;
+    private static final String CHANNEL_ID = "MiamNotifCommande";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commande);
+        mng_notif = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            createNotificationChannel();
 
         // Récupérer les éléments de l'interface utilisateur
         textNomClient = findViewById(R.id.editNomClient);
         textNumTelClient = findViewById(R.id.editNumTel);
         btnCommander = findViewById(R.id.btnCommander);
-        btnCommander = findViewById(R.id.btnCommander); // Bouton de commande
+
         // Récupérer les données du client depuis l'activité précédente
         String nomClient = getIntent().getStringExtra("nomClient");
         String numTelClient = getIntent().getStringExtra("numTel");
 
         // Mettre à jour les TextViews avec les données du client
-        Log.v("nomClient","nomClient: "+nomClient);
-        Log.v("numTelClient","numTelClient: "+numTelClient);
         textNomClient.setText(nomClient);
         textNumTelClient.setText(numTelClient);
 
@@ -59,30 +76,80 @@ public class activity_commande extends AppCompatActivity {
         bundle.putParcelableArrayList("listRepas", repasList);
         menuRepasFragment.setArguments(bundle);
 
-// Gérez le clic sur le bouton de commande
         btnCommander.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ajoutez ici la logique pour commander le repas sélectionné.
-                // Vous pouvez récupérer le repas sélectionné en fonction de la vue qui a été cliquée.
-                // Assurez-vous d'implémenter la logique pour suivre le repas sélectionné.
+                if(repasSelectionne!=null){
+                commande = new Commande(
+                        genererNumeroCommande(),
+                        textNomClient.getText().toString(),
+                        textNumTelClient.getText().toString(),
+                        repasSelectionne.getNoRepas(),
+                        repasSelectionne.getNom(),
+                        repasSelectionne.getPrix()
+                );
+                if (commande != null) {
+                    if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                        envoyerSMS(commande);
+                    } else {
+                        requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 1);
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    }
+                    notifier();
+                }
+            }else {
+                    Toast.makeText(activity_commande.this, "Veuillez choisir un repas pour commander", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-//    @Override
-//    public void onItemClick(Repas repasChoisi) { //, String prixRepas, String descRepas
-//        Log.d("repasList.toString()", "Liste de repas:"+repasList.toString());
-//        // Créez un fragment de détails et transmettez-lui le nom du repas
-//        DetailsRepasFragment fragment = DetailsRepasFragment.newInstance(repasChoisi);
-//        //, prixRepas, descRepas
-//
-//        // Remplacez le fragment actuel par le fragment de détails
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.fragmentContainer, fragment)
-//                .addToBackStack(null)
-//                .commit();
-//    }
+
+    private void notifier() {
+            int notificationID = commande.getNoCommande();
+            String canalID = CHANNEL_ID;
+            Notification nbuilder = new NotificationCompat.Builder(this, canalID)
+                    .setSmallIcon(R.drawable.icon_repas)
+                    .setContentTitle("Miam-O-Pizza - Labo4")
+                    .setContentText("La commande #" + commande.getNoCommande() + " est prete ! Repas: " + commande.getNomRepas() + "Total: " + repasSelectionne.getPrix() + "$ +tx")
+                    .setChannelId(canalID)
+                    .build();
+            mng_notif.notify(notificationID, nbuilder);
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence nom = "MIAM-O-PIZZA";
+            String description = "Description";
+            int priorite = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel canal = new NotificationChannel(CHANNEL_ID, nom, priorite);
+
+            canal.setDescription(description);
+            canal.enableLights(true);
+            canal.setLightColor(Color.RED);
+            mng_notif.createNotificationChannel(canal);
+        }
+    }
+
+    public void envoyerSMS(Commande commande){
+        // Construire le message SMS
+        String message = "Bonjour "+commande.getNomClient()+", Voici votre commande : " + commande.getNomRepas() + ", " + commande.getPrixRepas() + " $. Merci de commander chez nous!";
+            // Utiliser l'API SmsManager pour envoyer le SMS
+            SmsManager smsmgr = SmsManager.getDefault();
+            smsmgr.sendTextMessage(commande.getTelClient(), null,message,null,null);
+            // Confirmation sms
+            Toast.makeText(activity_commande.this, "Commande passée avec succès !", Toast.LENGTH_SHORT).show();
+            Log.i("SMS", "SMS envoyé : " + message);
+    }
+    public static int genererNumeroCommande() {
+        // Générateur de nombres aléatoires
+        Random random = new Random();
+        int numeroCommande = random.nextInt(90000) + 10000;
+        return numeroCommande;
+    }
+public void setRepasSelectionne(Repas repas) {
+        this.repasSelectionne = repas;
+    }
     private ArrayList<Repas> parseMenuFromXML() {
         ArrayList<Repas> repasList = new ArrayList<>();
         XmlResourceParser xrp = getResources().getXml(R.xml.menu);

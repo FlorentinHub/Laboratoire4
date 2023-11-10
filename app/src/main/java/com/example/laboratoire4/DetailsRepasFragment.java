@@ -30,12 +30,10 @@ public class DetailsRepasFragment extends Fragment {
             @Override
             public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                 Repas repasChoisi = result.getParcelable("repasChoisi");
-                Log.d("repas",repasChoisi.getNom().toString());
-                Log.d("repas",tv_menuItemName.getText().toString());
                 tv_menuItemName.setText(repasChoisi.getNom().toString());
                 tv_menuCategorieName.setText(repasChoisi.getCategorie().toString());
                 tv_menuItemDescription.setText(repasChoisi.getDescription().toString());
-                tv_menuItemPrice.setText(String.valueOf(repasChoisi.getPrix()));
+                tv_menuItemPrice.setText(String.valueOf(repasChoisi.getPrix())+" $");
             }
         });
         return vue;
